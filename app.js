@@ -25,7 +25,6 @@ app.get('/home',function(req,res){
 var dumbo = {
     table:[]
 };
-dumbo.table.push({'user':"adel",'password':"123"});
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
 app.post('/register',function(req,res){
@@ -64,4 +63,3 @@ app.post('/Enter',function(req,res){
 })
 
 app.listen(3003);
-
