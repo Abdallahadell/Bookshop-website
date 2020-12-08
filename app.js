@@ -15,15 +15,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
+
 app.get('/registration',function(req,res){
     res.render('registration', {error: "" , error2 : ""})
 });
+
 app.get('/home',function(req,res){
     res.render('home')
 });
-var dumbo = {
-    table:[]
-};
+
+var dumbo = { table:[] };
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
 
@@ -33,8 +34,9 @@ app.post('/register',function(req,res){
     var nameLow = name.toLowerCase();
     dumbo = JSON.parse(z);
     var found = dumbo.table.some(el => el.user == nameLow);
+
     if(found){
-       res.render('registration' , {error: "the user already exists." , error2: ""});
+        res.render('registration' , {error: "the user already exists." , error2: ""});
     }
 
     if(!found){
@@ -45,8 +47,8 @@ app.post('/register',function(req,res){
             res.render('Login' , {error: ""});
         } else { res.render('registration' , {error: "" , error2: "The username or password cannot be empty."}); }
     }   
-
 });
+
 app.post('/Enter',function(req,res){
     var z = fs.readFileSync("users.json");
     dumbo = JSON.parse(z);
@@ -54,14 +56,16 @@ app.post('/Enter',function(req,res){
     var nameLow = name.toLowerCase();
     y = {user:nameLow,password:req.body.password};
     var flag = false;
+
     for(i=0;i<dumbo.table.length;i++){
         if(dumbo.table[i].user==y.user&&dumbo.table[i].password==y.password){
             flag=true;
         }
     }
+
     if (flag){
         res.render('home');
-    }else{
+    } else{
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
