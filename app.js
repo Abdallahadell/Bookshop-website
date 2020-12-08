@@ -17,7 +17,7 @@ app.get('/',function(req,res){
 res.render('login')
 });
 app.get('/registration',function(req,res){
-    res.render('registration')
+    res.render('registration', {error: ""})
 });
 app.get('/home',function(req,res){
     res.render('home')
@@ -32,8 +32,7 @@ app.post('/register',function(req,res){
     dumbo = JSON.parse(z);
     var found = dumbo.table.some(el => el.user == req.body.username);
     if(found){
-       popup.alert("the user is already taken")
-       res.render('registration');
+       res.render('registration' , {error: "the user already exists."});
     }
 
     if(!found){
@@ -58,7 +57,7 @@ app.post('/Enter',function(req,res){
     if (flag){
         res.render('home');
     }else{
-        res.render('Login');
+        res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
 
