@@ -94,9 +94,19 @@ app.post('/Enter',function(req,res){
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
-/*app.post('/search',function(req,res){
+app.post('/search',function(req,res){
    var read = fs.readFileSync("users.json")
    var dumbo = JSON.parse(read)
+   var searchresults = {books:[]}
+   var zzz = req.body.Search;
+   var namelow = zzz.toLowerCase();
+   for(i=0;i<dumbo.books.length;i++){
+       if(dumbo.books[i].includes(namelow)){
+        searchresults.books.push(dumbo.books[i])
+       }
+   }
+   res.render('/search/search',  {contents: searchresults.books})
 
-})*/
+   
+})
 app.listen(3003);
