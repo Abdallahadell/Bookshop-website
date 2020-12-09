@@ -74,5 +74,16 @@ app.post('/Enter',function(req,res){
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
+app.post('/search',function(req,res){
+   var read = fs.readFileSync("users.json")
+   var dumbo = JSON.parse(read)
+
+})
+
+/*app.post('/dune' , function(req,res){
+    if(.clicked == true){
+        console.log("hello");
+    }
+})*/
 
 app.listen(3003);
