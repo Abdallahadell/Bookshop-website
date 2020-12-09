@@ -3,15 +3,20 @@ var path = require('path');
 var app = express();
 var fs = require('fs');
 const { stringify } = require('querystring');
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, 'public')));
-
+var dumbo = {table:[],books:[]};
+dumbo.books.push("lord of flies")
+dumbo.books.push("the grapes of wrath")
+dumbo.books.push("leaves of grass")
+dumbo.books.push("the sun and her flowers")
+dumbo.books.push("dune")
+dumbo.books.push("to kill a mockingbird")
+var s = JSON.stringify(dumbo);
+fs.writeFileSync("users.json",s);
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
@@ -21,12 +26,36 @@ app.get('/registration',function(req,res){
 app.get('/home',function(req,res){
     res.render('home')
 });
-var dumbo = {
-    table:[]
-};
-var s = JSON.stringify(dumbo);
-fs.writeFileSync("users.json",s);
-
+app.get('/fiction',function(req,res){
+    res.render('fiction')
+})
+app.get('/novel',function(req,res){
+    res.render('novel')
+})
+app.get('/poetry',function(req,res){
+    res.render('poetry')
+})
+app.get('/flies',function(req,res){
+    res.render('flies')
+})
+app.get('/grapes',function(req,res){
+    res.render('grapes')
+})
+app.get('/leaves',function(req,res){
+    res.render('leaves')
+})
+app.get('/sun',function(req,res){
+    res.render('sun')
+})
+app.get('/mockingbird',function(req,res){
+    res.render('mockingbird')
+})
+app.get('/dune',function(req,res){
+    res.render('dune')
+})
+app.get('/readlist',function(req,res){
+    res.render('readlist')
+})
 app.post('/register',function(req,res){
     var z = fs.readFileSync("users.json");
     var name = req.body.username;
@@ -65,5 +94,9 @@ app.post('/Enter',function(req,res){
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
+/*app.post('/search',function(req,res){
+   var read = fs.readFileSync("users.json")
+   var dumbo = JSON.parse(read)
 
+})*/
 app.listen(3003);
