@@ -3,15 +3,20 @@ var path = require('path');
 var app = express();
 var fs = require('fs');
 const { stringify } = require('querystring');
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, 'public')));
-
+var dumbo = {table:[],books:[]};
+dumbo.books.push("lord of flies")
+dumbo.books.push("the grapes of wrath")
+dumbo.books.push("leaves of grass")
+dumbo.books.push("the sun and her flowers")
+dumbo.books.push("dune")
+dumbo.books.push("to kill a mockingbird")
+var s = JSON.stringify(dumbo);
+fs.writeFileSync("users.json",s);
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
