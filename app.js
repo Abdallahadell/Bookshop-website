@@ -8,13 +8,16 @@ app.set('view engine','ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
 var dumbo = {table:[],books:[]};
-dumbo.books.push("lord of flies")
-dumbo.books.push("the grapes of wrath")
-dumbo.books.push("leaves of grass")
-dumbo.books.push("the sun and her flowers")
-dumbo.books.push("dune")
-dumbo.books.push("to kill a mockingbird")
+
+dumbo.books.push("lord of flies");
+dumbo.books.push("the grapes of wrath");
+dumbo.books.push("leaves of grass");
+dumbo.books.push("the sun and her flowers");
+dumbo.books.push("dune");
+dumbo.books.push("to kill a mockingbird");
+
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
 app.get('/',function(req,res){
@@ -60,7 +63,6 @@ app.get('/readlist',function(req,res){
     res.render('readlist')
 })
 
-var dumbo = { table:[] };
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
 
@@ -105,16 +107,13 @@ app.post('/Enter',function(req,res){
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
-app.post('/search',function(req,res){
+
+/*app.post('/search',function(req,res){
    var read = fs.readFileSync("users.json")
    var dumbo = JSON.parse(read)
 
-})
-
-/*app.post('/dune' , function(req,res){
-    if(.clicked == true){
-        console.log("hello");
-    }
 })*/
+
+
 
 app.listen(3003);
