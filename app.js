@@ -29,6 +29,37 @@ app.get('/home',function(req,res){
     res.render('home')
 });
 
+app.get('/fiction',function(req,res){
+    res.render('fiction')
+})
+app.get('/novel',function(req,res){
+    res.render('novel')
+})
+app.get('/poetry',function(req,res){
+    res.render('poetry')
+})
+app.get('/flies',function(req,res){
+    res.render('flies')
+})
+app.get('/grapes',function(req,res){
+    res.render('grapes')
+})
+app.get('/leaves',function(req,res){
+    res.render('leaves')
+})
+app.get('/sun',function(req,res){
+    res.render('sun')
+})
+app.get('/mockingbird',function(req,res){
+    res.render('mockingbird')
+})
+app.get('/dune',function(req,res){
+    res.render('dune')
+})
+app.get('/readlist',function(req,res){
+    res.render('readlist')
+})
+
 var dumbo = { table:[] };
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
