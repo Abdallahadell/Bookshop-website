@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var dumbo = {table:[],books:[]};
+/*var dumbo = {table:[],books:[]};
 dumbo.books.push({name:"lord of flies",direct:'/flies'})
 dumbo.books.push({name:"the grapes of wrath",direct:'/grapes'})
 dumbo.books.push({name:"leaves of grass",direct:'/leaves'})
@@ -27,7 +27,7 @@ dumbo.books.push({name:"the sun and her flowers",direct:'/sun'})
 dumbo.books.push({name:"dune",direct:'/dune'})
 dumbo.books.push({name:"to kill a mockingbird",direct:'/mockingbird'})
 var s = JSON.stringify(dumbo);
-fs.writeFileSync("users.json",s);
+fs.writeFileSync("users.json",s);*/
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
@@ -112,7 +112,7 @@ app.post('/Enter',function(req,res){
     }
 })
 
-/*app.post('/search',function(req,res){
+app.post('/search',function(req,res){
    var read = fs.readFileSync("users.json")
    var dumbo = JSON.parse(read)
    var searchresults = {books:[]}
@@ -124,18 +124,13 @@ app.post('/Enter',function(req,res){
        }
    }
    if(searchresults.books.length != 0 ){
-   res.render('blaq',{contents: searchresults.books,zero:""})
+   res.render('searchresults',{contents: searchresults.books,zero:""})
    }
 else{
-    res.render('blaq',{contents: 0,zero: "No results"})
+    res.render('searchresults',{contents: 0,zero: "No results"})
 }
 })
 
-/*app.post('/dune' , function(req,res){
-    if(.clicked == true){
-        console.log("hello");
-    }
-})*/
 
    
 
