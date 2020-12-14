@@ -8,24 +8,30 @@ app.set('view engine','ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
 var dumbo = {table:[],books:[]};
-dumbo.books.push("lord of flies")
-dumbo.books.push("the grapes of wrath")
-dumbo.books.push("leaves of grass")
-dumbo.books.push("the sun and her flowers")
-dumbo.books.push("dune")
-dumbo.books.push("to kill a mockingbird")
+
+dumbo.books.push("lord of flies");
+dumbo.books.push("the grapes of wrath");
+dumbo.books.push("leaves of grass");
+dumbo.books.push("the sun and her flowers");
+dumbo.books.push("dune");
+dumbo.books.push("to kill a mockingbird");
+
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
+
 app.get('/registration',function(req,res){
     res.render('registration', {error: "" , error2 : ""})
 });
+
 app.get('/home',function(req,res){
     res.render('home')
 });
+
 app.get('/fiction',function(req,res){
     res.render('fiction')
 })
@@ -56,14 +62,19 @@ app.get('/dune',function(req,res){
 app.get('/readlist',function(req,res){
     res.render('readlist')
 })
+
+var s = JSON.stringify(dumbo);
+fs.writeFileSync("users.json",s);
+
 app.post('/register',function(req,res){
     var z = fs.readFileSync("users.json");
     var name = req.body.username;
     var nameLow = name.toLowerCase();
     dumbo = JSON.parse(z);
     var found = dumbo.table.some(el => el.user == nameLow);
+
     if(found){
-       res.render('registration' , {error: "the user already exists." , error2: ""});
+        res.render('registration' , {error: "the user already exists." , error2: ""});
     }
 
     if(!found){
@@ -74,8 +85,8 @@ app.post('/register',function(req,res){
             res.render('Login' , {error: ""});
         } else { res.render('registration' , {error: "" , error2: "The username or password cannot be empty."}); }
     }   
-
 });
+
 app.post('/Enter',function(req,res){
     var z = fs.readFileSync("users.json");
     dumbo = JSON.parse(z);
@@ -83,27 +94,26 @@ app.post('/Enter',function(req,res){
     var nameLow = name.toLowerCase();
     y = {user:nameLow,password:req.body.password};
     var flag = false;
+
     for(i=0;i<dumbo.table.length;i++){
         if(dumbo.table[i].user==y.user&&dumbo.table[i].password==y.password){
             flag=true;
         }
     }
+
     if (flag){
         res.render('home');
-    }else{
+    } else{
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
-app.post('/search',function(req,res){
+
+/*app.post('/search',function(req,res){
    var read = fs.readFileSync("users.json")
    var dumbo = JSON.parse(read)
 
-})
-
-/*app.post('/dune' , function(req,res){
-    if(.clicked == true){
-        console.log("hello");
-    }
 })*/
+
+
 
 app.listen(3003);
