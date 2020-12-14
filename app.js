@@ -10,12 +10,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 var dumbo = {table:[],books:[]};
-var books = {books:[]};
-
-
-var n = JSON.stringify(books);
-fs.writeFileSync("books.json",n);
-
 
 dumbo.books.push("lord of flies");
 dumbo.books.push("the grapes of wrath");
