@@ -36,7 +36,7 @@ app.get('/registration',function(req,res){
 });
 
 app.get('/home',function(req,res){
-    res.render('home',{contents:0,zero:""})
+    res.render('home')
 });
 app.get('/fiction',function(req,res){
     res.render('fiction')
@@ -122,10 +122,10 @@ app.post('/search',function(req,res){
        }
    }
    if(searchresults.books.length != 0 ){
-   res.render('home',{contents: searchresults.books,zero:""})
+   res.render('blaq',{contents: searchresults.books,zero:""})
    }
 else{
-    res.render('home',{contents: 0,zero: "No results"})
+    res.render('blaq',{contents: 0,zero: "No results"})
 }
 })
 
