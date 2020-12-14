@@ -8,6 +8,7 @@ app.set('view engine','ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/scripts', express.static(__dirname + '/scripts/'));
 
 var dumbo = {table:[],books:[]};
 
@@ -20,6 +21,7 @@ dumbo.books.push("to kill a mockingbird");
 
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
+
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
@@ -93,27 +95,32 @@ app.post('/Enter',function(req,res){
     var name = req.body.username;
     var nameLow = name.toLowerCase();
     y = {user:nameLow,password:req.body.password};
-    var flag = false;
+    var found = dumbo.table.some(e => e.user == nameLow && e.password == req.body.password);
 
-    for(i=0;i<dumbo.table.length;i++){
+    /*for(i=0;i<dumbo.table.length;i++){
         if(dumbo.table[i].user==y.user&&dumbo.table[i].password==y.password){
             flag=true;
         }
-    }
+    }*/
 
-    if (flag){
+    if (found){
         res.render('home');
     } else{
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
+app.post('/add', function(req,res){
+    pushBook(req.body.title, req.body.link);
+})
+/*var books = {Books:[]};
+var booksStringfy = JSON.stringify(books);
+fs.writeFileSync("books.json",booksStringfy);
 
-/*app.post('/search',function(req,res){
-   var read = fs.readFileSync("users.json")
-   var dumbo = JSON.parse(read)
-
-})*/
-
-
+function pushBook(title, link) {
+    //var readBooks = fs.readFileSync("books.json");
+    //books = JSON.parse(readBooks);
+    //books.Books.push({'Title' : title , 'Link' : link});
+    alert("successfully added to your readlist.");
+}*/
 
 app.listen(3003);

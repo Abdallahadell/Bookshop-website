@@ -38,5 +38,14 @@
             </form>
         </div>
     </nav>
+    <div class="container1">
+        <script src = "/app.js"></script>
+        <script>for(i = 0 ; i < books.Books.length ; i++){
+                    var x = document.createElement("label");
+                    var t = document.createTextNode(books.Books[i].Title);
+                    x.appendChild(t);
+                    document.body.appendChild(x);
+                }</script>
+    </div>
 </body>
 </html>
