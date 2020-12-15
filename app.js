@@ -24,8 +24,12 @@ var books = {Books:[]};
 var booksStringfy = JSON.stringify(books);
 fs.writeFileSync("books.json",booksStringfy);
 
-app.get('/',function(req,res){
+app.get('/login',function(req,res){
     res.render('login' , {error: ""})
+});
+
+app.get('/',function(req,res){
+    res.redirect('login')
 });
 
 app.get('/registration',function(req,res){
@@ -78,7 +82,7 @@ app.post('/register',function(req,res){
     var found = dumbo.table.some(el => el.user == nameLow);
 
     if(found){
-        res.redirect('registration' , {error: "the user already exists." , error2: ""});
+        res.render('registration' , {error: "the user already exists." , error2: ""});
     }
 
     if(!found){
@@ -86,32 +90,26 @@ app.post('/register',function(req,res){
             dumbo.table.push({'user':nameLow,'password':req.body.password});
             var y = JSON.stringify(dumbo);
             fs.writeFileSync("users.json",y);
-            res.render('Login' , {error: ""});
+            res.redirect('/login');
         } else { res.render('registration' , {error: "" , error2: "The username or password cannot be empty."}); }
     }   
 });
 
-app.post('/Enter',function(req,res){
+app.post('/Login',function(req,res){
     var z = fs.readFileSync("users.json");
     dumbo = JSON.parse(z);
     var name = req.body.username;
     var nameLow = name.toLowerCase();
     var found = dumbo.table.some(e => e.user == nameLow && e.password == req.body.password);
 
-    
-
     if (found){
-        res.render('home');
+        res.redirect('home');
     } else{
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
 app.post('/add', function(req, res){
-<<<<<<< HEAD
-    var found = books.Books.some(e => e.Title == req.body.title);
-=======
     var found = books.Books.some(e => e.Title === req.body.title);
->>>>>>> 3b6828b5a196a749d976d7a490208ec4a03f174f
     if(found){
         console.log("Already added.");
         res.redirect(req.body.title);
