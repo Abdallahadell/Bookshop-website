@@ -62,7 +62,7 @@ app.get('/dune',function(req,res){
     res.render('dune')
 })
 app.get('/readlist',function(req,res){
-    res.render('readlist')
+    res.render('readlist' , {books:books})
 })
 
 var s = JSON.stringify(dumbo);
@@ -132,5 +132,7 @@ function pushBook(title, link) {
     var booksStringfy = JSON.stringify(books);
     fs.writeFileSync("books.json",booksStringfy);
 }
+
+var list = [1,2,3];
 
 app.listen(3003);

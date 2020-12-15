@@ -40,7 +40,9 @@
     </nav>
     <div class="container1">
         <script src = "/app.js"></script>
-        <script>for(i = 0 ; i < books.Books.length ; i++){
+        <script>
+                for(var i = 0 ; i < books.Books.length ; i++){
+                    alert("habd");
                     var x = document.createElement("label");
                     var t = document.createTextNode(books.Books[i].Title);
                     x.appendChild(t);
