@@ -105,7 +105,7 @@ app.post('/login',function(req,res){
     if (found){
         res.redirect('home');
     } else{
-        res.render('Login' , {error: "The username or password are incorrect."});
+        res.render('login' , {error: "The username or password are incorrect."});
     }
 })
 app.post('/add', function(req, res){
