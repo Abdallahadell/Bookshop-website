@@ -41,7 +41,7 @@
     <div class="container1">
         <script src = "/app.js"></script>
         <% for(var i = 0 ; i < booklist.length ; i++){%>
-            <div><img src="<%=booklist[i].Link%>.jpg" alt="<%=booklist[i].Title%>" width="193" height="300"></div>
+            <div style="width: 200px; float:left; height:100px; margin:10px;"><a href=<%=booklist[i].Link%>><img src="<%=booklist[i].Link%>.jpg" alt="<%=booklist[i].Title%>" width="193" height="300"></a></div>
             <%} %>
         <script>
                 for(var i = 0 ; i < books.Books.length ; i++){

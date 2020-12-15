@@ -22,6 +22,10 @@ dumbo.books.push("to kill a mockingbird");
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);
 
+var books = {Books:[]};
+var booksStringfy = JSON.stringify(books);
+fs.writeFileSync("books.json",booksStringfy);
+
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
@@ -94,14 +98,9 @@ app.post('/Enter',function(req,res){
     dumbo = JSON.parse(z);
     var name = req.body.username;
     var nameLow = name.toLowerCase();
-    y = {user:nameLow,password:req.body.password};
     var found = dumbo.table.some(e => e.user == nameLow && e.password == req.body.password);
 
-    /*for(i=0;i<dumbo.table.length;i++){
-        if(dumbo.table[i].user==y.user&&dumbo.table[i].password==y.password){
-            flag=true;
-        }
-    }*/
+    
 
     if (found){
         res.render('home');
@@ -110,25 +109,23 @@ app.post('/Enter',function(req,res){
     }
 })
 app.post('/add', function(req, res){
-    var found = books.Books.some(e => e.title == req.body.title);
+    var found = books.Books.some(e => e.Title === req.body.title);
     if(found){
         console.log("Already added.");
+        res.redirect(req.body.title);
         return;
     } else {
         switch(req.body.title){
-            case "sun" : pushBook("The Sun and Her Flowers", "/sun"); res.redirect("sun"); break;
-            case "dune" : pushBook("Dune" , "/dune"); res.redirect("dune"); break;
-            case "flies" : pushBook("Lord of the Flies" , "/flies"); res.redirect("flies"); break;
-            case "grapes" : pushBook("The Grapes of Wraths" , "/grapes"); res.redirect("grapes"); break;
-            case "leaves" : pushBook("Leaves of Grass" , "/leaves"); res.redirect("leaves"); break;
-            case "mockingbird" : pushBook("To Kill a Mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
+            case "sun" : pushBook("sun", "/sun"); res.redirect("sun"); break;
+            case "dune" : pushBook("dune" , "/dune"); res.redirect("dune"); break;
+            case "flies" : pushBook("flies" , "/flies"); res.redirect("flies"); break;
+            case "grapes" : pushBook("grapes" , "/grapes"); res.redirect("grapes"); break;
+            case "leaves" : pushBook("leaves" , "/leaves"); res.redirect("leaves"); break;
+            case "mockingbird" : pushBook("mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
             default : console.log("Nothing to push");
         }
     }
 })
-var books = {Books:[]};
-var booksStringfy = JSON.stringify(books);
-fs.writeFileSync("books.json",booksStringfy);
 
 function pushBook(title, link) {
     var readBooks = fs.readFileSync("books.json");
