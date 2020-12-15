@@ -10,8 +10,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(__dirname + '/scripts/'));
 var session = require('express-session');
-/*var dumbo = {table:[],books:[]};
-dumbo.books.push({name:"lord of flies",direct:'/flies'})
+const { render } = require('ejs');
+
+var currentusername;
+
+var dumbo;
+/*dumbo.books.push({name:"lord of flies",direct:'/flies'})
 dumbo.books.push({name:"the grapes of wrath",direct:'/grapes'})
 dumbo.books.push({name:"leaves of grass",direct:'/leaves'})
 dumbo.books.push({name:"the sun and her flowers",direct:'/sun'})
@@ -19,10 +23,9 @@ dumbo.books.push({name:"dune",direct:'/dune'})
 dumbo.books.push({name:"to kill a mockingbird",direct:'/mockingbird'})
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);*/
+
 app.use(session({ secret: 'keyboard cat',resave:false,rolling:true,saveUninitialized:false, cookie: { maxAge: 180000}}));
-var books = {Books:[]};
-var booksStringfy = JSON.stringify(books);
-fs.writeFileSync("books.json",booksStringfy);
+
 app.get('/searchresults',function(req,res){
     if (req.session.user){
         req.session.touch
@@ -74,11 +77,10 @@ app.get('/novel',function(req,res){
     if (req.session.user){
         req.session.touch
         res.render('novel');
-        }
+    }
     else{
         res.redirect('/login')
     }
-    
 })
 app.get('/poetry',function(req,res){
     if (req.session.user){
@@ -106,7 +108,6 @@ app.get('/grapes',function(req,res){
     else{
         res.redirect('/login')
     }
-    
 })
 app.get('/leaves',function(req,res){
     if (req.session.user){
@@ -116,8 +117,6 @@ app.get('/leaves',function(req,res){
     else{
         res.redirect('/login')
     }
-    
-    
 })
 app.get('/sun',function(req,res){
     if (req.session.user){
@@ -127,17 +126,15 @@ app.get('/sun',function(req,res){
     else{
         res.redirect('/login')
     }
-    
 })
 app.get('/mockingbird',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('sun');
+        res.render('mockingbird');
     }
     else{
         res.redirect('/login')
     }
-    
 })
 app.get('/dune',function(req,res){
     if (req.session.user){
@@ -147,19 +144,24 @@ app.get('/dune',function(req,res){
     else{
         res.redirect('/login')
     }
-    
-    
 })
 app.get('/readlist',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('readlist' , {booklist :books.Books});
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('readlist' , {booklist : dumbo.readlist[x]});
     }
     else{
         res.redirect('/login')
     }
-    
 })
+
+app.post('/logout',function(req,res){
+    req.session.destroy();
+    res.redirect('/login');
+});
 app.post('/register',function(req,res){
     var z = fs.readFileSync("users.json");
     var name = req.body.username;
@@ -170,10 +172,10 @@ app.post('/register',function(req,res){
     if(found){
         res.render('registration' , {error: "the user already exists." , error2: ""});
     }
-
-    if(!found){
+    else{
         if(req.body.password != "" && req.body.username != "") {
             dumbo.table.push({'user':nameLow,'password':req.body.password});
+            dumbo.readlist.push([]);
             var y = JSON.stringify(dumbo);
             fs.writeFileSync("users.json",y);
             res.redirect('/login');
@@ -190,40 +192,69 @@ app.post('/login',function(req,res){
 
     if (found){
         req.session.user = nameLow;
+        currentusername = nameLow;
         res.redirect('home');
     } else{
         res.render('login' , {error: "The username or password are incorrect."});
     }
 })
 app.post('/add', function(req, res){
-    var found = books.Books.some(e => e.Title === req.body.title);
-    if(found){
-        console.log("Already added.");
-        res.redirect(req.body.title);
-        return;
-    } else {
+    var z = fs.readFileSync("users.json");
+    dumbo = JSON.parse(z);
+    var x = dumbo.table.findIndex(e => e.user == req.session.user);
+    var found = dumbo.readlist[x].some(e => e.Title === req.body.title);
         switch(req.body.title){
-            case "sun" : pushBook("sun", "/sun"); res.redirect("sun"); break;
-            case "dune" : pushBook("dune" , "/dune"); res.redirect("dune"); break;
-            case "flies" : pushBook("flies" , "/flies"); res.redirect("flies"); break;
-            case "grapes" : pushBook("grapes" , "/grapes"); res.redirect("grapes"); break;
-            case "leaves" : pushBook("leaves" , "/leaves"); res.redirect("leaves"); break;
-            case "mockingbird" : pushBook("mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
+            case "The Sun and Her Flowers" : 
+                if(!found){
+                    pushBook("The Sun and Her Flowers", "/sun", req.session.user);
+                } 
+                res.redirect("sun"); break;
+            case "Dune" : 
+                if(!found){
+                    pushBook("Dune" , "/dune", req.session.user);
+                }
+                res.redirect("dune"); break;
+            case "Lord of the Flies" : 
+                if(!found){
+                    pushBook("Lord of the Flies" , "/flies", req.session.user);
+                }
+                res.redirect("flies"); break;
+            case "The Grapes of Wrath" : 
+                if(!found){
+                    pushBook("The Grapes of Wrath" , "/grapes", req.session.user);
+                }
+                res.redirect("grapes"); break;
+            case "Leaves of Grass" : 
+                if(!found){
+                    pushBook("Leaves of Grass" , "/leaves", req.session.user);
+                } 
+                res.redirect("leaves"); break;
+            case "To Kill a Mockingbird" : 
+                if(!found){
+                    pushBook("To Kill a Mockingbird" , "/mockingbird", req.session.user);
+                } 
+                res.redirect("mockingbird"); break;
             default : console.log("Nothing to push");
         }
-    }
 })
-function pushBook(title, link) {
-    var readBooks = fs.readFileSync("books.json");
-    books = JSON.parse(readBooks);
-    books.Books.push({'Title' : title , 'Link' : link});
-    var booksStringfy = JSON.stringify(books);
-    fs.writeFileSync("books.json",booksStringfy);
-}
+app.post('/remove', function(req, res){
+    var z = fs.readFileSync("users.json");
+    dumbo = JSON.parse(z);
+    var x = dumbo.table.findIndex(e => e.user == req.session.user);
+    var bookIndex = dumbo.readlist[x].findIndex(e => e.Title == req.body.title);
+    dumbo.readlist[x].splice(bookIndex, 1);
+    var booksStringfy = JSON.stringify(dumbo);
+    fs.writeFileSync("users.json",booksStringfy);
+    res.redirect("/readlist");
+})
+
 var searchresults ={books:[]}
 app.post('/search', function(req,res){
+    while(searchresults.books.length != 0){
+        searchresults.books.pop();
+    }
     var read = fs.readFileSync("users.json");
-    var dumbo = JSON.parse(read);
+    dumbo = JSON.parse(read);
     var zzz = req.body.Search;
     var namelow = zzz.toLowerCase();
     for(i = 0; i<dumbo.books.length; i++){
@@ -233,4 +264,14 @@ app.post('/search', function(req,res){
     }
     res.redirect('/searchresults')
 })
+
+function pushBook(title, link, currentuser) {
+    var readBooks = fs.readFileSync("users.json");
+    dumbo = JSON.parse(readBooks);
+    var z = dumbo.table.findIndex(e => e.user == currentuser);
+    dumbo.readlist[z].push({'Title' : title , 'Link' : link});
+    var booksStringfy = JSON.stringify(dumbo);
+    fs.writeFileSync("users.json",booksStringfy);
+}
+
 app.listen(3003);

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="guc.ico" type="image/x-icon">
     <style>
         body {
             background-image: url("background3.jpg");
@@ -66,8 +67,17 @@
             </ul>
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    aria-label="Search" style="position:fixed; right: 670px;">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="position:fixed; right: 600px;">Search</button>
+            </form>
+            <form method="POST" action="/logout">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Logout</button>
+            </form>
+            <form method="GET" action="/home">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Home</button>
+            </form>
+            <form method="GET" action="/readlist">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Your readlist</button>
             </form>
         </div>
     </nav>
@@ -79,7 +89,7 @@
     </div>
     <div class="readlist">
         <form method="POST" action="/add">
-            <input type="hidden" name="title" value="leaves">
+            <input type="hidden" name="title" value="Leaves of Grass">
             <button id="readlist" class="btn btn-secondary ml-3">Add to Want to Read List</button>
         </form>
     </div>
