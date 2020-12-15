@@ -8,8 +8,9 @@ app.set('view engine','ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/scripts', express.static(__dirname + '/scripts/'));
 
-/*var dumbo = {table:[],books:[]};
+var dumbo = {table:[],books:[]};
 dumbo.books.push({name:"lord of flies",direct:'/flies'})
 dumbo.books.push({name:"the grapes of wrath",direct:'/grapes'})
 dumbo.books.push({name:"leaves of grass",direct:'/leaves'})
@@ -17,7 +18,8 @@ dumbo.books.push({name:"the sun and her flowers",direct:'/sun'})
 dumbo.books.push({name:"dune",direct:'/dune'})
 dumbo.books.push({name:"to kill a mockingbird",direct:'/mockingbird'})
 var s = JSON.stringify(dumbo);
-fs.writeFileSync("users.json",s);*/
+fs.writeFileSync("users.json",s);
+
 app.get('/',function(req,res){
     res.render('login' , {error: ""})
 });
@@ -72,7 +74,7 @@ app.post('/register',function(req,res){
     var found = dumbo.table.some(el => el.user == nameLow);
 
     if(found){
-        res.render('registration' , {error: "the user already exists." , error2: ""});
+        res.redirect('registration' , {error: "the user already exists." , error2: ""});
     }
 
     if(!found){
@@ -91,41 +93,42 @@ app.post('/Enter',function(req,res){
     var name = req.body.username;
     var nameLow = name.toLowerCase();
     y = {user:nameLow,password:req.body.password};
-    var flag = false;
+    var found = dumbo.table.some(e => e.user == nameLow && e.password == req.body.password);
 
-    for(i=0;i<dumbo.table.length;i++){
+    /*for(i=0;i<dumbo.table.length;i++){
         if(dumbo.table[i].user==y.user&&dumbo.table[i].password==y.password){
             flag=true;
         }
-    }
+    }*/
 
-    if (flag){
+    if (found){
         res.render('home');
     } else{
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
-
-app.post('/search',function(req,res){
-   var read = fs.readFileSync("users.json")
-   var dumbo = JSON.parse(read)
-   var searchresults = {books:[]}
-   var zzz = req.body.Search;
-   var namelow = zzz.toLowerCase();
-   for(i=0;i<dumbo.books.length;i++){
-       if(dumbo.books[i].name.includes(namelow)&&namelow !="" ){
-        searchresults.books.push(dumbo.books[i])
-       }
-   }
-   if(searchresults.books.length != 0 ){
-   res.render('searchresults',{contents: searchresults.books,zero:""})
-   }
-else{
-    res.render('searchresults',{contents: 0,zero: "No results"})
-}
+app.post('/add', function(req, res){
+    switch(req.body.title){
+        case "sun" : pushBook("The Sun and Her Flowers", "/sun"); res.redirect("sun"); break;
+        case "dune" : pushBook("Dune" , "/dune"); res.redirect("dune"); break;
+        case "flies" : pushBook("Lord of the Flies" , "/flies"); res.redirect("flies"); break;
+        case "grapes" : pushBook("The Grapes of Wraths" , "/grapes"); res.redirect("grapes"); break;
+        case "leaves" : pushBook("Leaves of Grass" , "/leaves"); res.redirect("leaves"); break;
+        case "mockingbird" : pushBook("To Kill a Mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
+        default : console.log("Nothing to push");
+    }
 })
+var books = {Books:[]};
+var booksStringfy = JSON.stringify(books);
+fs.writeFileSync("books.json",booksStringfy);
 
-
-
+function pushBook(title, link) {
+    var readBooks = fs.readFileSync("books.json");
+    books = JSON.parse(readBooks);
+    books.Books.push({'Title' : title , 'Link' : link});
+    //alert("successfully added to your readlist.");
+    var booksStringfy = JSON.stringify(books);
+    fs.writeFileSync("books.json",booksStringfy);
+}
 
 app.listen(3003);
