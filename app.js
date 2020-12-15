@@ -19,46 +19,52 @@ dumbo.books.push({name:"dune",direct:'/dune'})
 dumbo.books.push({name:"to kill a mockingbird",direct:'/mockingbird'})
 var s = JSON.stringify(dumbo);
 fs.writeFileSync("users.json",s);*/
-app.use(session({ secret: 'keyboard cat',resave:false,saveUninitialized:false, cookie: { maxAge: 6000}}));
+app.use(session({ secret: 'keyboard cat',resave:false,rolling:true,saveUninitialized:false, cookie: { maxAge: 180000}}));
 var books = {Books:[]};
 var booksStringfy = JSON.stringify(books);
 fs.writeFileSync("books.json",booksStringfy);
-
+app.get('/searchresults',function(req,res){
+    if (req.session.user){
+        req.session.touch
+        if(searchresults.books.length != 0){
+            res.render('searchresults' , {contents: searchresults.books , zero:""})
+        }
+        else{
+            res.render('searchresults' , {contents: 0, zero:"No results"})
+        }
+    }
+    else{
+        res.redirect('/login')
+    }
+})
 app.get('/login',function(req,res){
     res.render('login' , {error: ""});
 }); 
 app.get('/',function(req,res){
     if (req.session.user){
-    req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.redirect('home');
-
-        }
-        else{
-            res.redirect('/login')
-        }
-});
-
-app.get('/registration',function(req,res){
-    res.render('registration', {error: "" , error2 : ""});
-});
-
-app.get('/home',function(req,res){
-    if (req.session.user){
-    req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
-    res.render('home');
     }
     else{
         res.redirect('/login')
     }
 });
-
+app.get('/registration',function(req,res){
+    res.render('registration', {error: "" , error2 : ""});
+});
+app.get('/home',function(req,res){
+    if (req.session.user){
+        req.session.touch
+        res.render('home');
+    }
+    else{
+        res.redirect('/login')
+    }
+});
 app.get('/fiction',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
-    res.render('fiction');
+        req.session.touch
+        res.render('fiction');
     }
     else{
         res.redirect('/login')
@@ -66,104 +72,94 @@ app.get('/fiction',function(req,res){
 })
 app.get('/novel',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('novel');
         }
-        else{
-            res.redirect('/login')
-        }
+    else{
+        res.redirect('/login')
+    }
     
 })
 app.get('/poetry',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('poetry');
-        }
-        else{
+    }
+    else{
             res.redirect('/login')
-        }
+    }
 })
 app.get('/flies',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('flies');
-        }
-        else{
+    }
+    else{
             res.redirect('/login')
-        }
+    }
 })
 app.get('/grapes',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('grapes');
-        }
-        else{
-            res.redirect('/login')
-        }
+    }
+    else{
+        res.redirect('/login')
+    }
     
 })
 app.get('/leaves',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('leaves');
-        }
-        else{
-            res.redirect('/login')
-        }
+    }
+    else{
+        res.redirect('/login')
+    }
     
     
 })
 app.get('/sun',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('sun');
-        }
-        else{
-            res.redirect('/login')
-        }
+    }
+    else{
+        res.redirect('/login')
+    }
     
 })
 app.get('/mockingbird',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-        req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('sun');
-        }
-        else{
-            res.redirect('/login')
-        }
+    }
+    else{
+        res.redirect('/login')
+    }
     
 })
 app.get('/dune',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('dune');
-        }
-        else{
-            res.redirect('/login')
-        }
+    }
+    else{
+        res.redirect('/login')
+    }
     
     
 })
 app.get('/readlist',function(req,res){
     if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-    req.session.cookie.maxAge = 5000
+        req.session.touch
         res.render('readlist' , {booklist :books.Books});
-        }
-        else{
-            res.redirect('/login')
-        }
+    }
+    else{
+        res.redirect('/login')
+    }
     
 })
-
 app.post('/register',function(req,res){
     var z = fs.readFileSync("users.json");
     var name = req.body.username;
@@ -181,7 +177,8 @@ app.post('/register',function(req,res){
             var y = JSON.stringify(dumbo);
             fs.writeFileSync("users.json",y);
             res.redirect('/login');
-        } else { res.render('registration' , {error: "" , error2: "The username or password cannot be empty."}); }
+        } 
+        else { res.render('registration' , {error: "" , error2: "The username or password cannot be empty."}); }
     }   
 });
 app.post('/login',function(req,res){
@@ -216,7 +213,6 @@ app.post('/add', function(req, res){
         }
     }
 })
-
 function pushBook(title, link) {
     var readBooks = fs.readFileSync("books.json");
     books = JSON.parse(readBooks);
@@ -224,21 +220,6 @@ function pushBook(title, link) {
     var booksStringfy = JSON.stringify(books);
     fs.writeFileSync("books.json",booksStringfy);
 }
-app.get('/searchresults',function(req,res){
-    if (req.session.user){
-        req.session.cookie.expires = new Date(Date.now() + 5000)
-        req.session.cookie.maxAge = 5000
-        if(searchresults.books.length != 0){
-            res.render('searchresults' , {contents: searchresults.books , zero:""})
-        }
-        else{
-            res.render('searchresults' , {contents: 0, zero:"No results"})
-        }
-        }
-        else{
-            res.redirect('/login')
-        }
-})
 var searchresults ={books:[]}
 app.post('/search', function(req,res){
     var read = fs.readFileSync("users.json");
@@ -252,5 +233,4 @@ app.post('/search', function(req,res){
     }
     res.redirect('/searchresults')
 })
-
 app.listen(3003);
