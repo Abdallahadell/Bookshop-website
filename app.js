@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(__dirname + '/scripts/'));
 
-var dumbo = {table:[],books:[]};
+/*var dumbo = {table:[],books:[]};
 dumbo.books.push({name:"lord of flies",direct:'/flies'})
 dumbo.books.push({name:"the grapes of wrath",direct:'/grapes'})
 dumbo.books.push({name:"leaves of grass",direct:'/leaves'})
@@ -18,61 +18,58 @@ dumbo.books.push({name:"the sun and her flowers",direct:'/sun'})
 dumbo.books.push({name:"dune",direct:'/dune'})
 dumbo.books.push({name:"to kill a mockingbird",direct:'/mockingbird'})
 var s = JSON.stringify(dumbo);
-fs.writeFileSync("users.json",s);
+fs.writeFileSync("users.json",s);*/
 
 var books = {Books:[]};
 var booksStringfy = JSON.stringify(books);
 fs.writeFileSync("books.json",booksStringfy);
 
 app.get('/login',function(req,res){
-    res.render('login' , {error: ""})
+    res.render('login' , {error: ""});
 });
 
 app.get('/',function(req,res){
-    res.redirect('login')
+    res.redirect('login');
 });
 
 app.get('/registration',function(req,res){
-    res.render('registration', {error: "" , error2 : ""})
+    res.render('registration', {error: "" , error2 : ""});
 });
 
 app.get('/home',function(req,res){
-    res.render('home')
+    res.render('home');
 });
 
 app.get('/fiction',function(req,res){
-    res.render('fiction')
+    res.render('fiction');
 })
 app.get('/novel',function(req,res){
-    res.render('novel')
+    res.render('novel');
 })
 app.get('/poetry',function(req,res){
-    res.render('poetry')
+    res.render('poetry');
 })
 app.get('/flies',function(req,res){
-    res.render('flies')
+    res.render('flies');
 })
 app.get('/grapes',function(req,res){
-    res.render('grapes')
+    res.render('grapes');
 })
 app.get('/leaves',function(req,res){
-    res.render('leaves')
+    res.render('leaves');
 })
 app.get('/sun',function(req,res){
-    res.render('sun')
+    res.render('sun');
 })
 app.get('/mockingbird',function(req,res){
-    res.render('mockingbird')
+    res.render('mockingbird');
 })
 app.get('/dune',function(req,res){
-    res.render('dune')
+    res.render('dune');
 })
 app.get('/readlist',function(req,res){
-    res.render('readlist' , {booklist :books.Books})
+    res.render('readlist' , {booklist :books.Books});
 })
-
-/*var s = JSON.stringify(dumbo);*/
-//fs.writeFileSync("users.json",s);
 
 app.post('/register',function(req,res){
     var z = fs.readFileSync("users.json");
@@ -131,7 +128,6 @@ function pushBook(title, link) {
     var readBooks = fs.readFileSync("books.json");
     books = JSON.parse(readBooks);
     books.Books.push({'Title' : title , 'Link' : link});
-    //alert("successfully added to your readlist.");
     var booksStringfy = JSON.stringify(books);
     fs.writeFileSync("books.json",booksStringfy);
 }
