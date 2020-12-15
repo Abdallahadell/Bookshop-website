@@ -76,7 +76,7 @@ app.post('/register',function(req,res){
     var found = dumbo.table.some(el => el.user == nameLow);
 
     if(found){
-        res.render('registration' , {error: "the user already exists." , error2: ""});
+        res.redirect('registration' , {error: "the user already exists." , error2: ""});
     }
 
     if(!found){
@@ -109,18 +109,28 @@ app.post('/Enter',function(req,res){
         res.render('Login' , {error: "The username or password are incorrect."});
     }
 })
-app.post('/add', function(req,res){
-    pushBook(req.body.title, req.body.link);
+app.post('/add', function(req, res){
+    switch(req.body.title){
+        case "sun" : pushBook("The Sun and Her Flowers", "/sun"); res.redirect("sun"); break;
+        case "dune" : pushBook("Dune" , "/dune"); res.redirect("dune"); break;
+        case "flies" : pushBook("Lord of the Flies" , "/flies"); res.redirect("flies"); break;
+        case "grapes" : pushBook("The Grapes of Wraths" , "/grapes"); res.redirect("grapes"); break;
+        case "leaves" : pushBook("Leaves of Grass" , "/leaves"); res.redirect("leaves"); break;
+        case "mockingbird" : pushBook("To Kill a Mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
+        default : console.log("Nothing to push");
+    }
 })
-/*var books = {Books:[]};
+var books = {Books:[]};
 var booksStringfy = JSON.stringify(books);
 fs.writeFileSync("books.json",booksStringfy);
 
 function pushBook(title, link) {
-    //var readBooks = fs.readFileSync("books.json");
-    //books = JSON.parse(readBooks);
-    //books.Books.push({'Title' : title , 'Link' : link});
-    alert("successfully added to your readlist.");
-}*/
+    var readBooks = fs.readFileSync("books.json");
+    books = JSON.parse(readBooks);
+    books.Books.push({'Title' : title , 'Link' : link});
+    //alert("successfully added to your readlist.");
+    var booksStringfy = JSON.stringify(books);
+    fs.writeFileSync("books.json",booksStringfy);
+}
 
 app.listen(3003);
