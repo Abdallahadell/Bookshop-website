@@ -5,13 +5,19 @@
         body {
             background-image: url("background3.jpg");
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: fill;
         }
 
         h1 {
             color: white;
             text-align: center;
             -webkit-text-stroke: 1px blue;
+        }
+        table{
+            width: 20%;
+            background-color: gray;
+            position:absolute;
+            left: 40%;
         }
     </style>
     <meta charset="UTF-8">
@@ -38,5 +44,23 @@
             </form>
         </div>
     </nav>
+    <body>
+        
+    <table class="bordered" >
+        <tbody>
+            <th>Name</th>
+            <th>Book cover</th>
+            <tr><td><%= zero %></td> </tr>
+            <% for(var i = 0;i<contents.length; i++){ %>
+                <tr>
+                    <td><a href=<%= contents[i].direct %>> <%=contents[i].name%></a>
+                        <td>
+                            <td><a href=<%= contents[i].direct %>><img src="<%= contents[i].direct %>.jpg" width="193" height="300">  </img></a></td>
+                </tr>
+            <%}%> 
+           
+            </tbody>
+      </table>
+    </body>
 </body>
 </html>
