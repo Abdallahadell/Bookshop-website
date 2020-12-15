@@ -62,7 +62,7 @@ app.get('/dune',function(req,res){
     res.render('dune')
 })
 app.get('/readlist',function(req,res){
-    res.render('readlist' , {books:books})
+    res.render('readlist' , {booklist :books.Books})
 })
 
 var s = JSON.stringify(dumbo);
@@ -110,14 +110,20 @@ app.post('/Enter',function(req,res){
     }
 })
 app.post('/add', function(req, res){
-    switch(req.body.title){
-        case "sun" : pushBook("The Sun and Her Flowers", "/sun"); res.redirect("sun"); break;
-        case "dune" : pushBook("Dune" , "/dune"); res.redirect("dune"); break;
-        case "flies" : pushBook("Lord of the Flies" , "/flies"); res.redirect("flies"); break;
-        case "grapes" : pushBook("The Grapes of Wraths" , "/grapes"); res.redirect("grapes"); break;
-        case "leaves" : pushBook("Leaves of Grass" , "/leaves"); res.redirect("leaves"); break;
-        case "mockingbird" : pushBook("To Kill a Mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
-        default : console.log("Nothing to push");
+    var found = books.Books.some(e => e.title == req.body.title);
+    if(found){
+        console.log("Already added.");
+        return;
+    } else {
+        switch(req.body.title){
+            case "sun" : pushBook("The Sun and Her Flowers", "/sun"); res.redirect("sun"); break;
+            case "dune" : pushBook("Dune" , "/dune"); res.redirect("dune"); break;
+            case "flies" : pushBook("Lord of the Flies" , "/flies"); res.redirect("flies"); break;
+            case "grapes" : pushBook("The Grapes of Wraths" , "/grapes"); res.redirect("grapes"); break;
+            case "leaves" : pushBook("Leaves of Grass" , "/leaves"); res.redirect("leaves"); break;
+            case "mockingbird" : pushBook("To Kill a Mockingbird" , "/mockingbird"); res.redirect("mockingbird"); break;
+            default : console.log("Nothing to push");
+        }
     }
 })
 var books = {Books:[]};
