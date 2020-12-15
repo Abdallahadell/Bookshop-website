@@ -108,7 +108,7 @@ app.post('/Enter',function(req,res){
     }
 })
 app.post('/add', function(req, res){
-    var found = books.Books.some(e => e.title == req.body.title);
+    var found = books.Books.some(e => e.Title == req.body.title);
     if(found){
         console.log("Already added.");
         return;
@@ -137,6 +137,23 @@ function pushBook(title, link) {
     fs.writeFileSync("books.json",booksStringfy);
 }
 
-var list = [1,2,3];
+app.post('/search', function(req,res){
+    var read = fs.readFileSync("users.json");
+    var dumbo = JSON.parse(read);
+    var searchresults ={books:[]}
+    var zzz = req.body.Search;
+    var namelow = zzz.toLowerCase();
+    for(i = 0; i<dumbo.books.length; i++){
+        if(dumbo.books[i].name.includes(namelow) && namelow!= ""){
+            searchresults.books.push(dumbo.books[i]);
+        }
+    }
+    if(searchresults.books.length != 0){
+        res.render('searchresults' , {contents: searchresults.books , zero:""})
+    }
+    else{
+        res.render('searchresults' , {contents: 0, zero:"No results"})
+    }
+})
 
 app.listen(3003);
