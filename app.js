@@ -95,7 +95,7 @@ app.post('/register',function(req,res){
     }   
 });
 
-app.post('/Login',function(req,res){
+app.post('/login',function(req,res){
     var z = fs.readFileSync("users.json");
     dumbo = JSON.parse(z);
     var name = req.body.username;
