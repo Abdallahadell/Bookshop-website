@@ -92,7 +92,7 @@ app.post('/register',function(req,res){
     }   
 });
 
-app.post('/Login',function(req,res){
+app.post('/login',function(req,res){
     var z = fs.readFileSync("users.json");
     dumbo = JSON.parse(z);
     var name = req.body.username;
@@ -102,7 +102,7 @@ app.post('/Login',function(req,res){
     if (found){
         res.redirect('home');
     } else{
-        res.render('Login' , {error: "The username or password are incorrect."});
+        res.render('login' , {error: "The username or password are incorrect."});
     }
 })
 app.post('/add', function(req, res){
