@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="guc.ico" type="image/x-icon">
     <style>
+        th{
+            background-image: url("background3.jpg");
+            color: white;
+        }
+        tr{
+            background-image: url("background3.jpg");
+            color: white;
+        }
+        td{
+            background-image: url("background3.jpg");
+            color: white;
+        }
         body {
             background-image: url("background3.jpg");
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: fill;
         }
 
         h1 {
             color: white;
             text-align: center;
             -webkit-text-stroke: 1px blue;
+        }
+        table{
+            width: 20%;
+            background-color: gray;
+            position:absolute;
+            left: 40%;
         }
     </style>
     <meta charset="UTF-8">
@@ -33,10 +52,42 @@
             </ul>
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    aria-label="Search" style="position:fixed; right: 670px;">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="position:fixed; right: 600px;">Search</button>
+            </form>
+            <form method="POST" action="/logout">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Logout</button>
+            </form>
+            <form method="GET" action="/home">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Home</button>
+            </form>
+            <form method="GET" action="/readlist">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Your readlist</button>
             </form>
         </div>
     </nav>
+    <body>
+        
+        <!--<table class="bordered" >
+            <tbody>
+                <th>Name</th>
+                <th>Book cover</th>
+                <tr><td><%= zero %></td> </tr>
+                <% for(var i = 0;i<contents.length; i++){ %>
+                    <tr>
+                        <td><a style="color: white;" href=<%= contents[i].direct %>> <%=contents[i].name%></a>
+                            <td>
+                                <td><a href=<%= contents[i].direct %>><img src="<%= contents[i].direct %>.jpg" width="193" height="300">  </img></a></td>
+                    </tr>
+                <%}%> 
+    
+                </tbody>
+          </table>!-->
+          <h1><%=zero%></h1>
+          <% for(var i = 0;i<contents.length; i++){ %>
+            <div style="width: 200px; float:left; height:100px; margin:10px;"><a href=<%=contents[i].direct%>><img src="<%=contents[i].direct%>.jpg" alt="<%=contents[i].name%>" width="193" height="300">
+                <br><p style="text-align: center; color: white;"><%=contents[i].name%></p></a></div>
+            <% } %>
+    </body>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="guc.ico" type="image/x-icon">
     <style>
         body {
             background-image: url("background3.jpg");
@@ -42,6 +43,20 @@
             left: 80px;
             top: 370px;
         }
+        table {
+            position: absolute;
+            right: 6%;
+            top: 4.7%;
+            background-color: white;
+            width: 15.5em;
+        }
+        p {
+            position: absolute;
+            right: 6%;
+            top: 4.7%;
+            background-color: white;
+            width: 15.5em;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,12 +78,15 @@
             </ul>
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    aria-label="Search" style="position:fixed; right: 670px;">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="position:fixed; right: 600px;">Search</button>
+            </form>
+            <form method="POST" action="/logout">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Logout</button>
             </form>
         </div>
     </nav>
-
+   
     <div class="container">
         <h1>Welcome</h1>
     </div>

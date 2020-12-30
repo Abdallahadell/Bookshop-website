@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="guc.ico" type="image/x-icon">
     <style>
         body {
             background-image: url("background3.jpg");
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: fill;
         }
         h1 {
             color: white;
@@ -44,6 +45,25 @@
         #my {
             zoom: 110%;
         }
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            visibility: hidden;
+        }
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .closebtn:hover {
+            color: black;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,8 +84,17 @@
             </ul>
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    aria-label="Search" style="position:fixed; right: 670px;">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="position:fixed; right: 600px;">Search</button>
+            </form>
+            <form method="POST" action="/logout">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Logout</button>
+            </form>
+            <form method="GET" action="/home">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Home</button>
+            </form>
+            <form method="GET" action="/readlist">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin: 10px;">Your readlist</button>
             </form>
         </div>
     </nav>
@@ -76,12 +105,25 @@
         First published in 1939, Steinbeck’s Pulitzer Prize-winning epic of the Great Depression chronicles the Dust Bowl migration of the 1930s and tells the story of one Oklahoma farm family, the Joads—driven from their homestead and forced to travel west to the promised land of California.
     </div>
     <div class="readlist">
-        <button id="readlist" class="btn btn-secondary ml-3">Add to Want to Read List</button>
+        <form method="POST" action="/add">
+            <input type="hidden" name="title" value="The Grapes of Wrath">
+            <button id="readlist" class="btn btn-secondary ml-3" onclick="myFunction()">Add to Want to Read List</button>
+        </form>
+        <script>
+            var check = '<%=bool%>';
+            function myFunction() {
+                if(check == 'true') {
+                    alert("Already Added!");
+                }
+                else {
+                    alert("Added Successfully!")
+                }
+            }
+        </script> 
     </div>
     <div class="video">
-        <video width="480" height="360" controls>
-            <source src="/grapes.mp4">
-        </video>
+        <iframe width="480" height="360" src="https://youtube.com/embed/fOuAZLA_jWQ">
+        </iframe>
     </div>
 </body>
 </html>
