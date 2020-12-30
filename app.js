@@ -12,8 +12,6 @@ app.use('/scripts', express.static(__dirname + '/scripts/'));
 var session = require('express-session');
 const { render } = require('ejs');
 
-var currentusername;
-
 var dumbo;
 /*dumbo.books.push({name:"lord of flies",direct:'/flies'})
 dumbo.books.push({name:"the grapes of wrath",direct:'/grapes'})
@@ -94,7 +92,10 @@ app.get('/poetry',function(req,res){
 app.get('/flies',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('flies');
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('flies' , {bool : dumbo.readlist[x].some(e => e.Title == 'Lord of the Flies')});
     }
     else{
             res.redirect('/login')
@@ -103,7 +104,10 @@ app.get('/flies',function(req,res){
 app.get('/grapes',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('grapes');
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('grapes' , {bool : dumbo.readlist[x].some(e => e.Title == 'The Grapes of Wrath')});
     }
     else{
         res.redirect('/login')
@@ -112,7 +116,10 @@ app.get('/grapes',function(req,res){
 app.get('/leaves',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('leaves');
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('leaves' , {bool : dumbo.readlist[x].some(e => e.Title == 'Leaves of Grass')});
     }
     else{
         res.redirect('/login')
@@ -121,7 +128,10 @@ app.get('/leaves',function(req,res){
 app.get('/sun',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('sun');
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('sun' , {bool : dumbo.readlist[x].some(e => e.Title == 'The Sun and Her Flowers')});
     }
     else{
         res.redirect('/login')
@@ -130,7 +140,10 @@ app.get('/sun',function(req,res){
 app.get('/mockingbird',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('mockingbird');
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('mockingbird' , {bool : dumbo.readlist[x].some(e => e.Title == 'To Kill a Mockingbird')});
     }
     else{
         res.redirect('/login')
@@ -139,7 +152,10 @@ app.get('/mockingbird',function(req,res){
 app.get('/dune',function(req,res){
     if (req.session.user){
         req.session.touch
-        res.render('dune');
+        var z = fs.readFileSync("users.json");
+        dumbo = JSON.parse(z);
+        var x = dumbo.table.findIndex(e => e.user == req.session.user);
+        res.render('dune' , {bool : dumbo.readlist[x].some(e => e.Title == 'Dune')});
     }
     else{
         res.redirect('/login')
@@ -262,7 +278,7 @@ app.post('/search', function(req,res){
             searchresults.books.push(dumbo.books[i]);
         }
     }
-    res.redirect('/searchresults')
+    res.redirect('/searchresults');
 })
 
 function pushBook(title, link, currentuser) {

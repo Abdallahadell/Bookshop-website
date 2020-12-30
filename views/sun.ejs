@@ -89,8 +89,19 @@
     <div class="readlist">
         <form method="POST" action="/add">
             <input type="hidden" name="title" value="The Sun and Her Flowers">
-            <button id="readlist" class="btn btn-secondary ml-3">Add to Want to Read List</button>
+            <button id="readlist" class="btn btn-secondary ml-3" onclick="myFunction()">Add to Want to Read List</button>
         </form>
+        <script>
+            var check = '<%=bool%>';
+            function myFunction() {
+                if(check == 'true') {
+                    alert("Already Added!");
+                }
+                else {
+                    alert("Added Successfully!")
+                }
+            }
+        </script> 
     </div>
     <div class="video">
         <iframe width="480" height="360" src="https://www.youtube.com/embed/FXbaFwDfziQ">
