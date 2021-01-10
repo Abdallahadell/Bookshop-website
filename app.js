@@ -290,4 +290,5 @@ function pushBook(title, link, currentuser) {
     fs.writeFileSync("users.json",booksStringfy);
 }
 
-app.listen(3003);
+app.listen(process.env.PORT || 3000, 
+	() => console.log("Server is running..."));
